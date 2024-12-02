@@ -11,4 +11,4 @@ A dynamic landing page with:
 2. Open `index.html` in your browser.
 
 ## Author
-Your Name
+Ahmad Baker
