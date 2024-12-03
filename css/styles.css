@@ -1,18 +1,17 @@
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
+  font-family: 'Helvetica', sans-serif;
+  line-height: 1.8;
 }
 
 header {
   position: fixed;
   top: 0;
   width: 100%;
-  background: #333;
+  background-color: #282828;
   color: #fff;
-  text-align: center;
   z-index: 1000;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 nav ul {
@@ -24,63 +23,66 @@ nav ul {
 }
 
 nav ul li {
-  margin: 0 15px;
+  margin: 0 10px;
 }
 
 nav ul li a {
-  color: #fff;
+  color: white;
   text-decoration: none;
-  font-size: 16px;
-  padding: 8px 12px;
-  transition: color 0.3s, background-color 0.3s;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease-in-out;
 }
 
-nav ul li a:hover,
-.navBarMenu-item-active {
-  color: #ffcc00; 
-  background-color: rgba(255, 255, 255, 0.2); 
-  border-radius: 5px;
+nav ul li a:hover {
+  background-color: #444;
 }
 
 section {
   height: 100vh;
+  padding: 20px;
+  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 1px solid #ddd;
-  transition: background-color 0.3s, color 0.3s; 
 }
 
 section:nth-child(even) {
-  background: #f9f9f9;
+  background: #f1f1f1;
 }
 
 section:nth-child(odd) {
-  background: #fff; 
+  background: #fff;
 }
 
-.active-section {
-  background: #e8f0fe; 
-  color: #333;
+section.current {
+  border-left: 5px solid #007BFF;
+  animation: highlight 0.6s ease-in-out;
 }
 
-#scrollTopButton {
+@keyframes highlight {
+  0% { background-color: #d0ebff; }
+  100% { background-color: transparent; }
+}
+
+#backToTop {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  display: none;
   padding: 10px 15px;
-  background: #536DFE;
+  background-color: #007BFF;
   color: #fff;
-  font-size: 14px;
+  font-size: 16px;
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
-  transition: transform 0.3s, opacity 0.3s; 
+  display: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: opacity 0.3s, transform 0.3s;
 }
 
-#scrollTopButton:hover {
-  background: #3949AB;
-  transform: scale(1.1); 
+#backToTop:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
 }

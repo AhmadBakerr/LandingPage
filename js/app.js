@@ -1,75 +1,47 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const pageSections = document.querySelectorAll('section');
-  const navBarMenu = document.getElementById('navBarMenu');
+    const sections = [...document.querySelectorAll('section')];
+    const menuList = document.getElementById('menuList');
 
-  const menuFragment = document.createDocumentFragment();
-  pageSections.forEach(pageSection => {
-      const menuItem = document.createElement('li');
-      const menuLink = document.createElement('a');
-      menuLink.href = `#${pageSection.id}`;
-      menuLink.textContent = pageSection.dataset.nav;
-      menuItem.appendChild(menuLink);
-      menuFragment.appendChild(menuItem);
-  });
-  navBarMenu.appendChild(menuFragment);
+    sections.forEach((section) => {
+        const menuItem = document.createElement('li');
+        menuItem.innerHTML = `<a href="#${section.id}" data-id="${section.id}">${section.dataset.label}</a>`;
+        menuList.appendChild(menuItem);
+    });
 
-  navBarMenu.addEventListener('click', (event) => {
-      if (event.target.tagName === 'A') {
-          event.preventDefault();
-          const targetPageSection = document.querySelector(event.target.getAttribute('href'));
-          targetPageSection.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start',
-          });
-      }
-  });
+    menuList.addEventListener('click', (event) => {
+        if (event.target.tagName === 'A') {
+            event.preventDefault();
+            const targetId = event.target.dataset.id;
+            const targetSection = document.getElementById(targetId);
 
-  const sectionObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-          if (entry.isIntersecting) {
-              entry.target.classList.add('active-section');
-          } else {
-              entry.target.classList.remove('active-section');
-          }
-      });
-  }, { threshold: 0.6 });
+            window.scroll({
+                top: targetSection.offsetTop - 50, 
+                behavior: 'smooth',
+            });
+        }
+    });
 
-  pageSections.forEach(pageSection => sectionObserver.observe(pageSection));
+    window.addEventListener('scroll', () => {
+        let currentSection = sections.find(section => {
+            const bounds = section.getBoundingClientRect();
+            return bounds.top >= 0 && bounds.top < window.innerHeight / 2;
+        });
 
-  (() => {
-      const topButton = document.createElement('button');
-      topButton.textContent = '⬆';
-      topButton.id = 'scrollTopButton';
-      topButton.style.cssText = `
-          position: fixed;
-          bottom: 15px;
-          right: 15px;
-          display: none;
-          padding: 10px 15px;
-          font-size: 18px;
-          background-color: #FF5722;
-          color: white;
-          border: none;
-          border-radius: 50%;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-          cursor: pointer;
-          z-index: 1000;
-      `;
-      document.body.appendChild(topButton);
+        sections.forEach(section => section.classList.remove('current'));
+        if (currentSection) currentSection.classList.add('current');
+    });
 
-      window.addEventListener('scroll', () => {
-          if (window.scrollY > 400) {
-              topButton.style.display = 'block';
-          } else {
-              topButton.style.display = 'none';
-          }
-      });
+    const backToTop = document.createElement('button');
+    backToTop.id = 'backToTop';
+    backToTop.textContent = '⬆';
+    backToTop.style.display = 'none';
+    document.body.appendChild(backToTop);
 
-      topButton.addEventListener('click', () => {
-          window.scrollTo({
-              top: 0,
-              behavior: 'smooth',
-          });
-      });
-  })();
+    window.addEventListener('scroll', () => {
+        backToTop.style.display = window.scrollY > 500 ? 'block' : 'none';
+    });
+
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 });
