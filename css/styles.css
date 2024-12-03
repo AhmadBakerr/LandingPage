@@ -1,48 +1,86 @@
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-  }
-  
-  header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: #333;
-    color: #fff;
-    text-align: center;
-    z-index: 1000;
-  }
-  
-  nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    margin: 0;
-    padding: 10px 0;
-  }
-  
-  nav ul li {
-    margin: 0 15px;
-  }
-  
-  nav ul li a {
-    color: #fff;
-    text-decoration: none;
-  }
-  
-  section {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid #ddd;
-  }
-  
-  .active-section {
-    background: #f4f4f4;
-  }
-  
-  .navbar-item-active {
-    color: yellow;
-  }
-  
+  margin: 0;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #333;
+  color: #fff;
+  text-align: center;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 10px 0;
+}
+
+nav ul li {
+  margin: 0 15px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 8px 12px;
+  transition: color 0.3s, background-color 0.3s;
+}
+
+nav ul li a:hover,
+.navBarMenu-item-active {
+  color: #ffcc00; 
+  background-color: rgba(255, 255, 255, 0.2); 
+  border-radius: 5px;
+}
+
+section {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  transition: background-color 0.3s, color 0.3s; 
+}
+
+section:nth-child(even) {
+  background: #f9f9f9;
+}
+
+section:nth-child(odd) {
+  background: #fff; 
+}
+
+.active-section {
+  background: #e8f0fe; 
+  color: #333;
+}
+
+#scrollTopButton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: none;
+  padding: 10px 15px;
+  background: #536DFE;
+  color: #fff;
+  font-size: 14px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+  transition: transform 0.3s, opacity 0.3s; 
+}
+
+#scrollTopButton:hover {
+  background: #3949AB;
+  transform: scale(1.1); 
+}
