@@ -69,7 +69,7 @@ sections.forEach((section) => {
         const content = section.querySelector('.landing__container');
         const isCollapsed = content.style.display === 'none';
 
-        content.style.display = isCollapsed ? 'block' : 'none';
+        content.style.display = isCollapsed ? 'block' : 'none';ى
     });
 });
 
