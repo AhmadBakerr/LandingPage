@@ -1,47 +1,91 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const sections = [...document.querySelectorAll('section')];
-    const menuList = document.getElementById('menuList');
+const navbarList = document.getElementById('navbar__list');
+const sections = document.querySelectorAll('section');
+const scrollToTopButton = document.createElement('button');
 
+sections.forEach((section) => {
+    const sectionId = section.id;
+    const sectionNav = section.getAttribute('data-nav');
+    const listItem = document.createElement('li');
+    listItem.innerHTML = `<a href="#${sectionId}" class="menu__link">${sectionNav}</a>`;
+    navbarList.appendChild(listItem);
+});
+
+function setActiveSection() {
     sections.forEach((section) => {
-        const menuItem = document.createElement('li');
-        menuItem.innerHTML = `<a href="#${section.id}" data-id="${section.id}">${section.dataset.label}</a>`;
-        menuList.appendChild(menuItem);
-    });
+        const bounding = section.getBoundingClientRect();
+        const link = document.querySelector(`a[href="#${section.id}"]`);
 
-    menuList.addEventListener('click', (event) => {
-        if (event.target.tagName === 'A') {
-            event.preventDefault();
-            const targetId = event.target.dataset.id;
-            const targetSection = document.getElementById(targetId);
-
-            window.scroll({
-                top: targetSection.offsetTop - 50, 
-                behavior: 'smooth',
-            });
+        if (bounding.top >= -200 && bounding.top <= 200) {
+            section.classList.add('your-active-class');
+            link.classList.add('active-link');
+        } else {
+            section.classList.remove('your-active-class');
+            link.classList.remove('active-link');
         }
     });
+}
 
-    window.addEventListener('scroll', () => {
-        let currentSection = sections.find(section => {
-            const bounds = section.getBoundingClientRect();
-            return bounds.top >= 0 && bounds.top < window.innerHeight / 2;
-        });
+navbarList.addEventListener('click', (event) => {
+    event.preventDefault();
+    if (event.target.nodeName === 'A') {
+        const targetId = event.target.getAttribute('href').slice(1);
+        const targetSection = document.getElementById(targetId);
+        targetSection.scrollIntoView({ behavior: 'smooth' });
+    }
+});
 
-        sections.forEach(section => section.classList.remove('current'));
-        if (currentSection) currentSection.classList.add('current');
-    });
+scrollToTopButton.textContent = '↑ Top';
+scrollToTopButton.classList.add('scroll-to-top');
+document.body.appendChild(scrollToTopButton);
 
-    const backToTop = document.createElement('button');
-    backToTop.id = 'backToTop';
-    backToTop.textContent = '⬆';
-    backToTop.style.display = 'none';
-    document.body.appendChild(backToTop);
+scrollToTopButton.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
 
-    window.addEventListener('scroll', () => {
-        backToTop.style.display = window.scrollY > 500 ? 'block' : 'none';
-    });
+function handleScrollToTopButton() {
+    if (window.scrollY > window.innerHeight) {
+        scrollToTopButton.style.display = 'block';
+    } else {
+        scrollToTopButton.style.display = 'none';
+    }
+}
 
-    backToTop.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+let isScrolling;
+function hideNavbarWhileIdle() {
+    const header = document.querySelector('.page__header');
+    window.clearTimeout(isScrolling);
+
+    header.style.display = 'block';
+    isScrolling = setTimeout(() => {
+        header.style.display = 'none';
+    }, 3000);
+}
+
+sections.forEach((section) => {
+    const header = section.querySelector('h2');
+    header.style.cursor = 'pointer';
+
+    header.addEventListener('click', () => {
+        const content = section.querySelector('.landing__container');
+        const isCollapsed = content.style.display === 'none';
+
+        content.style.display = isCollapsed ? 'block' : 'none';
     });
 });
+
+document.addEventListener('scroll', () => {
+    setActiveSection();
+    handleScrollToTopButton();
+    hideNavbarWhileIdle();
+});
+
+scrollToTopButton.style.display = 'none';
+scrollToTopButton.style.position = 'fixed';
+scrollToTopButton.style.bottom = '20px';
+scrollToTopButton.style.right = '20px';
+scrollToTopButton.style.backgroundColor = '#333';
+scrollToTopButton.style.color = '#fff';
+scrollToTopButton.style.padding = '10px 15px';
+scrollToTopButton.style.border = 'none';
+scrollToTopButton.style.borderRadius = '5px';
+scrollToTopButton.style.cursor = 'pointer';
